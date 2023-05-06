@@ -2,10 +2,42 @@
 const User = require('../models/user');
 
 module.exports.profile = async function(req, res){
-    return res.render('user_profile', {
-        title: "User Profile"
-    })
+    
+    try{
+        let user = await User.findById(req.params.id);
+
+        return res.render('user_profile', {
+            title: "User Profile",
+            profile_user: user
+        });
+    }
+    catch(err){
+        console.log('Error in Rendering the Profile');
+    }
 }
+
+module.exports.update = async function(req,res){
+
+    if(req.user.id == req.params.id){
+
+        let user = await User.findByIdAndUpdate(req.params.id, req.body);
+        return res.redirect('back');
+    }
+    else{
+        return res.status(401).send('Unauthorized');
+    }
+}
+
+/*module.exports.update = function(req ,res){
+    if(req.user.id == req.params.id){
+        User.findByIdAndUpdate(req.params.id, req.body,function(err,user){
+            return res.redirect('back');
+        });
+    }else{
+        return res.status(401).send('Unauthorized');
+    }
+}*/
+
 
 //Render the sign up Page
 module.exports.signUp = function(req, res){
