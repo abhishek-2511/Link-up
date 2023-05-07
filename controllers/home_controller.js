@@ -3,9 +3,6 @@ const Post = require("../models/post");
 const User = require('../models/user');
 
 module.exports.home = async function(req, res){
-   
-    //console.log(req.cookies);
-    //res.cookie('user_id', 25);
 
     try{
         //populate the user of each post
@@ -16,8 +13,7 @@ module.exports.home = async function(req, res){
             populate: {
                 path: 'user'
             }
-        })
-        .exec();
+        });
 
         let users = await User.find({});
         

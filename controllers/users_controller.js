@@ -70,23 +70,12 @@ module.exports.create = async function(req, res){
     }
 
     let user = await User.findOne({email: req.body.email});
-   
-        /*function(err,user){
-        if(err){
-            console.log('Error in finding user in signing up');
-            return;
-        }*/
 
         if(!user){
             User.create(req.body);
             console.log(req.body);
-                /*function(err,user){
-                
-                if(err){
-                    console.log('Error in creating user while signing up');
-                    return;
-                }*/
-                return res.redirect('/users/sign-in');
+            
+            return res.redirect('/users/sign-in');
             }
         else{
             return res.redirect('back');
@@ -95,18 +84,21 @@ module.exports.create = async function(req, res){
 
 //sign-in and create a session for user
 module.exports.createSession = async function(req, res){
+    
+    req.flash('success', 'Logged in Successfully');
+
     return res.redirect('/');
 }
 
-module.exports.destroySession = function(req,res){
+module.exports.destroySession = async function(req,res){
     req.logout(function(err){
         if(err){
-            console.log("Error  in Destrying session");
+            console.log('Error in log out');
         }
+        req.flash('success', 'You have Logged Out!');
         return res.redirect('/');
     });
     
-    //return res.redirect('/');
 }
 
 

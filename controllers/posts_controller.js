@@ -9,31 +9,15 @@ module.exports.create = async function(req,res){
             user: req.user._id
         })
 
+        req.flash('success', 'Post Published!');
         return res.redirect('back');
 
     }
     catch(err){
-        console.log("Error in Creating a post");
-        return;
+        req.flash('error',err);
+        return res.redirect('back');
     }
 }
-
-/*module.exports.destroy = function(req,res){
-
-    Post.findById(req.params.id, function(err,post){
-
-        //.id means converting the object id into string
-        if(post.user == req.user.id){
-            post.remove();
-
-            Comment.deleteMany({post: req.params.id},function(err){
-                return res.redirect('back');
-            });
-        }else{
-            return res.redirect('back');
-        }
-    });
-}*/
 
 module.exports.destroy = async function(req, res){
 
@@ -41,22 +25,22 @@ module.exports.destroy = async function(req, res){
         const post =  await Post.findById(req.params.id);
        
         //.id means converting the object id into string
-        //const id1 = post.user;
-        //const id2 = req.user.id;
-
         if(post.user == req.user.id){
-            await post.deleteOne();       //the error is coming from post.remove() function so changed it to post.deleteOne(); 
+            await post.deleteOne();       //the error is coming from post.remove() function so i have changed it to post.deleteOne(); 
             
             await Comment.deleteMany({
                 post: req.params.id
             });
 
+            req.flash('success', 'Post and Associated comments deleted!');
             return res.redirect('back');
-        }else{
+        }
+        else{
+            req.flash('error', 'you Cannot delete this post');
             return res.redirect('back');
         }
     }catch(error){
-        console.log("Error in deleting a post");
+        req.flash('error', error);
         return res.redirect('back');
     }
 }
