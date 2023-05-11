@@ -21,22 +21,14 @@ module.exports.update = async function(req,res){
     if(req.user.id == req.params.id){
 
         let user = await User.findByIdAndUpdate(req.params.id, req.body);
+        req.flash('success', 'Updated!');
         return res.redirect('back');
     }
     else{
+        req.flash('error', 'Unauthorized!');
         return res.status(401).send('Unauthorized');
     }
 }
-
-/*module.exports.update = function(req ,res){
-    if(req.user.id == req.params.id){
-        User.findByIdAndUpdate(req.params.id, req.body,function(err,user){
-            return res.redirect('back');
-        });
-    }else{
-        return res.status(401).send('Unauthorized');
-    }
-}*/
 
 
 //Render the sign up Page
@@ -66,6 +58,8 @@ module.exports.signIn = function(req, res){
 //get the sign up data
 module.exports.create = async function(req, res){
     if(req.body.password != req.body.confirm_password){
+        
+        req.flash('error', 'Passwords do not match');
         return res.redirect('back');
     }
 
@@ -75,9 +69,11 @@ module.exports.create = async function(req, res){
             User.create(req.body);
             console.log(req.body);
             
+            req.flash('success', 'You have signed up, Sign-in to continue!');
             return res.redirect('/users/sign-in');
-            }
+        }
         else{
+            
             return res.redirect('back');
         }
 }
