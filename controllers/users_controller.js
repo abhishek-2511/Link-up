@@ -2,6 +2,9 @@
 const User = require('../models/user');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+const queue = require('../config/kue');
+const userEmailWorker = require('../workers/user_email_worker');
 
 
 module.exports.profile = async function(req, res){
@@ -98,25 +101,33 @@ module.exports.signIn = function(req, res){
 
 //get the sign up data
 module.exports.create = async function(req, res){
-    if(req.body.password != req.body.confirm_password){
-        
-        req.flash('error', 'Passwords do not match');
-        return res.redirect('back');
-    }
 
-    let user = await User.findOne({email: req.body.email});
+    try{
+        if(req.body.password != req.body.confirm_password){
+        
+            req.flash('error', 'Passwords do not match');
+            return res.redirect('back');
+        }
+
+        const user = await User.findOne({email: req.body.email});
 
         if(!user){
-            User.create(req.body);
-            console.log(req.body);
-            
-            req.flash('success', 'You have signed up, Sign-in to continue!');
+            const createdUser = await User.create(req.body);
+            let job = await queue.create('signup-successful', createdUser).save();
+
+            console.log('Job Enqueued : ', job.id);
+            req.flash('success', 'Sign up completed');
             return res.redirect('/users/sign-in');
         }
         else{
-            
+            req.flash('error', 'Email Already exist');
             return res.redirect('back');
         }
+    }
+    catch(err){
+        console.log('error in finding user in signing up');
+        return;
+    }
 }
 
 //sign-in and create a session for user
@@ -136,6 +147,103 @@ module.exports.destroySession = async function(req,res){
         return res.redirect('/');
     });
     
+}
+
+module.exports.resetPassword = function(req, res){
+    
+    return res.render('reset_password',{
+        
+        title: 'Link-up | Reset Password',
+        access: false
+    });
+}
+
+module.exports.resetPassMail = async function(req,res){
+
+    try{
+        const user = await User.findOne({email: req.body.email});
+
+        if(user){
+            if(!user.isTokenValid){
+
+                user.accessToken = crypto.randomBytes(30).toString('hex');
+                user.isTokenValid = true;
+                user.save();
+            }
+
+            let job = await queue.create('user-emails', user).save();
+
+            req.flash('success', 'Password reset link sent. Please check your mail');
+            return res.redirect('/');
+            
+        }
+        else{
+            req.flash('error', "User not findOneAndUpdate. Try again!");
+            return res.redirect('back');
+        }
+    }
+    catch(err){
+        console.log('Error in fiding user', err);
+        return;
+    }
+}
+
+module.exports.setPassword = async function(req, res){
+    
+    try{
+        let user = await User.findOne({accessToken: req.params.accessToken});
+    
+        if(user.isTokenValid){
+            
+            return res.render('reset_password',
+            {
+                title: 'Link-up | Reset Password',
+                access: true,
+                accessToken: req.params.accessToken
+            });
+        }
+        else{
+            req.flash('error', 'Link expired1');
+            return res.redirect('/users/reset-password');
+        }
+    }
+    catch(err){
+        console.log('Error in finding user', err);
+        return;
+    }
+}
+
+module.exports.updatePassword = async function(req,res){
+
+    try{
+        let user = await User.findOne({accessToken: req.params.accessToken});
+        
+        if(user.isTokenValid){
+
+            if(req.body.newPass == req.body.confirmPass){
+
+                user.password = req.body.newPass;
+                user.isTokenValid = false;
+                await user.save();
+                
+                req.flash('success', 'Password updated. Login now!');
+                return res.redirect('/users/sign-in');
+            }
+            else{
+                req.flash('error', 'Password dont Match');
+                return res.redirect('back');
+            }
+        }
+        else{
+            req.flash('error','Link Expired2');
+            return res.redirect('/users/reset-password');
+        }
+
+    }
+    catch(err){
+        console.log('Error in finding user', err);
+        return;
+    }
 }
 
 

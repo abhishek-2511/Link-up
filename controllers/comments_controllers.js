@@ -1,7 +1,10 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
+const commentsMailer = require('../mailers/comments_mailer');
+const commentEmailWorker = require('../workers/comment_email_worker');
+const queue = require('../config/kue');
 
-//Deleting a Post (Authenticated)
+
 module.exports.create = async function(req,res){
     
     try{
@@ -17,11 +20,21 @@ module.exports.create = async function(req,res){
             post.comments.push(comment);
             await post.save();    //this will save in the Database
 
+            comment = await comment.populate('user', 'name email');
+            //commentsMailer.newComment(comment);
+
+            
+            let job = queue.create('emails', comment).save(function(err){
+                if(err){
+                    console.log('Error in sending to the queue', err);
+                }
+
+                console.log(job.id);
+            });
+
             //now making a xhr request for ajax
             if(req.xhr){
-                //similar for comments to fetch the user's id
-                comment = await comment.populate('user', 'name');
-
+                
                 return res.status(200).json({
                     data: {
                         comment: comment
