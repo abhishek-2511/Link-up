@@ -4,9 +4,19 @@ const router = express.Router();
 const passport = require('passport');
 
 const usersController = require('../controllers/users_controller');
-//const { route } = require('.');
+
+//const { route } = require('.');  --> how to use routes
+
+//making routes for friendship
+const friendsController = require('../controllers/friends_controller');
+
 
 router.get('/profile/:id',passport.checkAuthentication ,usersController.profile);
+
+//linking the friendship routes into controller actions
+router.get('/profile/:id/toggle_friend', friendsController.toggle_friendship);
+
+
 router.post('/update/:id',passport.checkAuthentication ,usersController.update); 
 
 

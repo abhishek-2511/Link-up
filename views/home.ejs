@@ -24,25 +24,75 @@
 
     </section>
 
-
+    <!-- Display all us users -->
     <section id="user-friends">
 
-        <h4>Friends</h4>
-        <% for(u of all_users) {%>
+        <div id="friends-container">
+            <h4>FRIENDS</h4>
 
-            <p>
-                <a href="/users/profile/<%= u.id %>"> <%= u.name %></a>
-            </p>
+            <% if(!locals.user) {%>
+                <h5>Please login to see your Friends</h5>
+            <% } %>
 
-        <% } %>
+            <ul>
 
+                <% if(locals.user && locals.friends.length == 0) {%>
+                    <h5>No Friends Found!</h5>
+                <% } %>
+
+                <% for(fr of locals.friends) {%>
+
+                    <li>
+                        <div>
+                            <a href="/users/profile/<%= fr.friend_id %>" style="color:lightseagreen;text-decoration: none;text-align: left;">
+                                <span> <%= fr.friend_name %></span>
+                            </a>
+                        </div>
+                    </li>
+
+                <% } %>
+            </ul>
+
+        </div>
+
+    </section>
+
+    
+  
+
+
+
+    <section id="new-users">
+
+        <h3>New Users</h3>
+        <div>
+
+            <% for(u of all_users) {%>
+
+                <p>
+                    <a href="/users/profile/<%= u.id %>" style="color: black;text-decoration: none;"> <%= u.name %></a>
+                </p>
+    
+            <% } %>
+
+        </div>
+        
     </section>
 
 </div>
 
-
+<!-- importig this script for creating the comments -->
 <script src="/js/home_post_comments.js"></script>
 <script src="/js/home_posts.js"></script>
+
+<!-- import the script file for toggle likes, also run it over for the already present posts and comments on the page -->
+<script src="/js/toggle_likes.js"></script>
+<script>
+    $('.toggle-like-button').each(function(){
+        let self = this;
+        let toggleLike = new ToggleLike(self);
+    });
+</script>
 
 
 

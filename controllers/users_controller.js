@@ -5,20 +5,36 @@ const path = require('path');
 const crypto = require('crypto');
 const queue = require('../config/kue');
 const userEmailWorker = require('../workers/user_email_worker');
+const Friendship = require('../models/friendship');
 
 
 module.exports.profile = async function(req, res){
     
     try{
-        let user = await User.findById(req.params.id);
+
+        const user = await User.findById(req.params.id).exec();
+
+        let are_friends = false;
+
+        const friendship = await Friendship.findOne({
+            $or: [
+                {from_user: req.user._id, to_user: req.params.id},
+                {from_user: req.params.id, to_user: req.user._id}
+            ]
+        }).exec();
+
+        if(friendship){
+            are_friends = true;
+        }
 
         return res.render('user_profile', {
             title: "User Profile",
-            profile_user: user
+            profile_user: user,
+            are_friends: are_friends
         });
     }
     catch(err){
-        console.log('Error in Rendering the Profile');
+        console.log('Error in Rendering the Profile',err);
     }
 }
 
@@ -64,7 +80,6 @@ module.exports.update = async function(req,res){
             return res.redirect('back');
         }
 
-        
         req.flash('success', 'Updated!');
         return res.redirect('back');
     }
@@ -139,6 +154,7 @@ module.exports.createSession = async function(req, res){
 }
 
 module.exports.destroySession = async function(req,res){
+    debugger;
     req.logout(function(err){
         if(err){
             console.log('Error in log out');
