@@ -1,5 +1,31 @@
-body {
-  margin: 0;
-  /* text-align: center; */ }
-  body #layout-main {
-    height: 100%; }
+html {
+  /*Track*/
+  /*Handle*/ }
+  html ::-webkit-scrollbar {
+    width: 12px; }
+  html ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 10px;
+    border-radius: 10px; }
+  html ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #979899;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5); }
+  html ::-webkit-scrollbar-thumb:window-inactive {
+    background: #979899; }
+  html body {
+    overflow-y: scroll; }
+    html body h1, html body h1, html body h3, html body h4, html body h5, html body h6, html body p, html body li {
+      color: white;
+      font-family: 'Ubuntu', sans-serif; }
+    html body input:focus, html body textarea:focus, html body select:focus {
+      outline: none; }
+    html body section {
+      height: 100%; }
+      html body section main {
+        text-align: center; }
+        html body section main #layout-main {
+          height: 100%; }
+        html body section main li {
+          list-style: none; }

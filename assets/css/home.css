@@ -1,10 +1,102 @@
+/* #home-container{
+    display: flex;
+    height: 100% ;
+    #feed-posts{
+        width: 70%;
+        padding: 10px;
+    }
+
+    #user-friends{
+        width: 30%;
+        padding: 10px;
+        border-left: 2px solid lightgray;
+    }
+
+} */
 #home-container {
   display: flex;
-  height: 100%; }
+  overflow-x: hidden; }
   #home-container #feed-posts {
     width: 70%;
-    padding: 10px; }
+    padding: 10px;
+    border-right: 2px solid lightgrey;
+    height: 100%; }
+    #home-container #feed-posts #new-post-form ::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: #ece3e3;
+      opacity: 1;
+      /* Firefox */ }
+    #home-container #feed-posts .add-post-text {
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 20px;
+      background-color: transparent;
+      color: white;
+      border: 2px solid lightgrey;
+      height: 80px;
+      width: 65%;
+      background-image: linear-gradient(to right, #314755 0%, #26a0da 51%, #314755 100%); }
+    #home-container #feed-posts .add-post-button {
+      cursor: pointer;
+      padding: 5px 9px;
+      border-radius: 9px;
+      width: 90px;
+      position: relative;
+      font-size: 1rem;
+      bottom: 27px;
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      border: 2px solid lightgrey; }
+      #home-container #feed-posts .add-post-button:hover {
+        background-color: rgba(51, 51, 54, 0.719); }
+    #home-container #feed-posts #posts-list-container .each-post {
+      border: 3px solid white;
+      border-radius: 10px;
+      margin: 30px 0;
+      padding: 15px;
+      padding-top: 0;
+      background-image: linear-gradient(to right, #A1C4FD, #C2E9FB);
+      text-align: left; }
+      #home-container #feed-posts #posts-list-container .each-post .avatar-cross {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between; }
+      #home-container #feed-posts #posts-list-container .each-post .post-users-name {
+        font-size: 1.2rem; }
+      #home-container #feed-posts #posts-list-container .each-post .post-avatar {
+        height: 25px;
+        width: 25px;
+        border-radius: 50%;
+        position: relative;
+        top: 8px; }
+      #home-container #feed-posts #posts-list-container .each-post .horizontal-line {
+        border: 1px solid white; }
+      #home-container #feed-posts #posts-list-container .each-post .post-comments .add-text {
+        padding-left: 10px;
+        border-radius: 10px; }
+      #home-container #feed-posts #posts-list-container .each-post .post-comments .add-button {
+        cursor: pointer;
+        padding: 2px 5px;
+        border-radius: 9px; }
+  #home-container .list-group li {
+    position: relative;
+    left: 2vw;
+    text-align: left;
+    margin-bottom: 5px; }
+  #home-container .list-group p {
+    position: relative;
+    left: 4vw;
+    text-align: left;
+    margin-bottom: 5px; }
   #home-container #user-friends {
     width: 30%;
-    padding: 10px;
-    border-left: 2px solid lightgray; }
+    padding: 10px; }
+    #home-container #user-friends .user-name {
+      position: relative;
+      bottom: 11px; }
+    #home-container #user-friends #friends-container {
+      border-bottom: 2px solid lightgrey; }
+
+#home-container::-webkit-scrollbar {
+  display: none; }

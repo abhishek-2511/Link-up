@@ -1,0 +1,74 @@
+
+<!-- Add this partial into home.ejs -->
+<!-- 
+<% if(locals.user) {%>
+
+    <div id="user-chat-box">
+        
+        <ul id="chat-messages-list">
+            
+            <li class="other-message">
+                <span>Other Message</span>
+            </li>
+            <li class="self-message">
+                <span>Self Message</span>
+            </li>
+        
+        </ul>
+
+        <div id="chat-message-list-container">
+
+            <input id="chat-message-input" placeholder="Type messages here...">
+            <button id="send-message">Send</button>
+
+        </div>
+
+    </div>
+
+<% } %> -->
+
+<% if(locals.user) {%>
+
+    <div class="open-button" onclick="openForm()">
+        <span><img src="<%= locals.user.avatar %>" style="height:35px; width:35px; border-radius:50%; border: 2px solid black;"></span>
+        <span class="messaging">Messaging</span>
+    </div>
+
+    <div id="user-chat-box">
+        <div class="chat-header">
+            <span>Messaging</span>
+            <div  class="btn-cancel" onclick="closeForm()"></button>
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+
+        <hr>
+
+        <ul id="chat-messages-list"> 
+
+            <li class="other-message">
+                <span>
+                    Hey , how can we help you ?
+                </span>
+            </li>
+
+            <br>
+
+            <li class="self-message">
+                <span>
+                    I love this...!!
+                </span>
+            </li>
+        </ul>
+
+        <div id="chat-message-input-container">
+            <input id="chat-message-input" placeholder="Type messages here...">
+            <button id="send-message">
+                
+                <img src="/images/pngwing.com.png">
+            </button>
+        </div>
+
+    </div>
+ 
+<%} %> 

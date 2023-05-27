@@ -1,15 +1,21 @@
 <link rel="stylesheet" href="/css/home.css">
 
+<link rel="stylesheet" href="/css/chat_box.css">
+
+
 <div id="home-container">
+
+    <!-- Posts Section -->
+
     <section id="feed-posts">
-        <h4>Posts</h4>
+        <h3>FEED</h3>
         
         <% if (locals.user) { %> 
-        <form action="/posts/create" id="new-post-form" method="POST" >
-            <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
-            <input type="submit" value="Post"> 
-            
-        </form>
+            <form action="/posts/create" id="new-post-form" method="POST" >
+                <textarea name="content" cols="30" rows="3" placeholder="What's on you Mind..." required class="add-post-text"></textarea>
+                <br>
+                <input type="submit" value="Post" class="add-post-button"> 
+            </form>
         <% } %>
 
         <div id="posts-list-container">
@@ -30,47 +36,44 @@
         <div id="friends-container">
             <h4>FRIENDS</h4>
 
-            <% if(!locals.user) {%>
-                <h5>Please login to see your Friends</h5>
-            <% } %>
+            <div class="list-group">
 
-            <ul>
+                <% if(!locals.user) {%>
+                    <h5>Please login to see your Friends</h5>
+                <% } %>
 
-                <% if(locals.user && locals.friends.length == 0) {%>
+                <% if(locals.user && locals.friends.length == 0) { %>
                     <h5>No Friends Found!</h5>
                 <% } %>
 
-                <% for(fr of locals.friends) {%>
-
-                    <li>
-                        <div>
-                            <a href="/users/profile/<%= fr.friend_id %>" style="color:lightseagreen;text-decoration: none;text-align: left;">
-                                <span> <%= fr.friend_name %></span>
-                            </a>
-                        </div>
-                    </li>
+                <% for(fr of locals.friends) { %>
+                    <p>
+                        <a href="/users/profile/<%= fr.friend_id %>" style="color:lightseagreen;text-decoration: none;text-align: left;">
+                            <img src="<%= fr.friend_avatar%>" style="height:40px; width:40px; border-radius:50%;">
+                            &nbsp;
+                            <span class="user-name"> <%= fr.friend_name %></span>
+                        </a>
+                    </p> 
 
                 <% } %>
-            </ul>
+            </div>
 
         </div>
 
-    </section>
+        <!-- All Users -->
+        
+        <h3>ALL USERS</h3>
 
-    
-  
-
-
-
-    <section id="new-users">
-
-        <h3>New Users</h3>
-        <div>
+        <div class="list-group">
 
             <% for(u of all_users) {%>
 
                 <p>
-                    <a href="/users/profile/<%= u.id %>" style="color: black;text-decoration: none;"> <%= u.name %></a>
+                    <a href="/users/profile/<%= u.id %>" style="color:white;text-decoration: none;"> 
+                        <img src="<%= u.avatar %>"  style="height:40px; width:40px; border-radius:50%;">
+                        &nbsp   
+                        <span class="user-name"><%= u.name %></span>
+                    </a>
                 </p>
     
             <% } %>
@@ -80,6 +83,8 @@
     </section>
 
 </div>
+
+<%- include('_chat_box') -%>
 
 <!-- importig this script for creating the comments -->
 <script src="/js/home_post_comments.js"></script>
@@ -94,6 +99,13 @@
     });
 </script>
 
+<!-- Adding chat script files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+<script src="/js/chat_engine.js"></script>
 
-
-    
+<% if(locals.user) {%>
+    <script>
+        new ChatEngine('user-chat-box', '<%= locals.user.email%>')
+    </script> 
+<% } %>
+<script src="/js/pop-up-chat.js"></script>

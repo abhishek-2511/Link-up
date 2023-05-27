@@ -3,14 +3,18 @@
     <p>
         <% if(locals.user && locals.user.id == comment.user.id){ %>
             <small>
-                <a class="delete-comment-button" href="/comments/destroy/<%= comment.id %>">x</a>
+                <a class="delete-comment-button" href="/comments/destroy/<%= comment.id %>" style="text-decoration: none;">
+                    <img src="/images/clear.png" style="width:15px;height:15px;cursor:pointer;position: relative;top: 3px;">
+                </a>
             </small>
         <% } %>
-
+            <span> <img src="<%= comment.user.avatar %>" class="post-avatar"></span>
         <%= comment.content %>
+        <br>
         <br>
         
         <small>
+            ~
             <%= comment.user.name %>
         </small>
 
@@ -18,12 +22,14 @@
         <small>
             <% if(locals.user) { %>
 
-                <a class="toggle-like-button" data-likes="<%= comment.likes.length %>" href="/likes/toggle/?id=<%= comment._id %>&type=Comment">
+                <a class="toggle-like-button" data-likes="<%= comment.likes.length %>" href="/likes/toggle/?id=<%= comment._id %>&type=Comment" style="color:black;text-decoration: none;">
+                    <span> <i class="fa-regular fa-thumbs-up" ></i> </span>
                     <%= comment.likes.length %> Likes
                 </a>
                 
             <% } else { %>
                 
+                <span> <i class="fa-regular fa-thumbs-up" ></i></span>
                 <%= comment.likes.length %> Likes
 
             <% } %>
