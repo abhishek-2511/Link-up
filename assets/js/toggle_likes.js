@@ -17,7 +17,8 @@ class ToggleLike{
             })
             .done(function(data){
                 let likesCount = parseInt($(self).attr('data-likes'));
-                console.log(likesCount);
+                let isLiked=false;
+                
 
                 if(data.data.deleted == true){
                     
@@ -25,10 +26,19 @@ class ToggleLike{
                 }else{
 
                     likesCount += 1;
+                    isLiked=!isLiked
+                   
                 }
-
+                console.log('current like count',likesCount);
+                console.log(parseInt($(self).attr('data-likes')))
                 $(self).attr('data-likes', likesCount);
-                $(self).html(`${likesCount} Likes`);
+                if(isLiked){
+                     $(self).html(`<i class="fa-sharp fa-solid fa-thumbs-up" ></i> ${likesCount} ${likesCount===1?'like':'likes'}`);
+                }
+                else{
+                    $(self).html(`<i class="fa-regular fa-thumbs-up" ></i> ${likesCount} ${likesCount===1?'like':'likes'}`);
+                }
+                
             })
             .fail(function(errData){
                 console.log('error in completing the request');

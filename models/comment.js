@@ -14,6 +14,10 @@ const commentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
     },
+    avatar: {
+        type: String,
+        require: true
+    },
     likes: [
         {
             type: mongoose.Schema.Types.ObjectId,

@@ -14,11 +14,13 @@ module.exports.create = async function(req,res){
             let comment = await Comment.create({
                 content: req.body.content,
                 post: req.body.post,
-                user: req.user._id
+                user: req.user._id,
+                avatar: req.user.avatar
             });
 
             post.comments.push(comment);
             await post.save();    //this will save in the Database
+
 
             comment = await comment.populate('user', 'name email');
             //commentsMailer.newComment(comment);
@@ -33,15 +35,16 @@ module.exports.create = async function(req,res){
             });
 
             //now making a xhr request for ajax
-            if(req.xhr){
-                
-                return res.status(200).json({
-                    data: {
-                        comment: comment
-                    },
-                    message: "Comment created!"
-                });
-            }
+                if(req.xhr){
+                    
+                    return res.status(200).json({
+                        
+                        data: {
+                            comment: comment
+                        },
+                        message: "Comment created!"
+                    });
+                }
 
             //await comment.save();
 

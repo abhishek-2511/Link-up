@@ -13,6 +13,7 @@
                 data: newPostForm.serialize(),
                 success: function(data){
                     //console.log(data);
+
                     let newPost = newPostDom(data.data.post);
                     $('#posts-list-container>ul').prepend(newPost);
                     
@@ -32,6 +33,7 @@
                         timeout: 1500
                     
                     }).show();
+
                 }, 
                 error: function(error){
                     console.log(error.responseText);
@@ -44,41 +46,69 @@
     //method to create a post in DOM
     let newPostDom = function(post){
         //show the count of zero likes on this post
-        return $(`<li id="post-${post._id}">
-                    <p>
-                        <small>
-                            <a class="delete-post-button" href="/posts/destroy/${ post._id }">x</a>
-                        </small>
+        return $(`<li id="post-${ post._id }" style="width:90%;margin-left: 3%;" class="each-post">
+
+
+        <p>
+            <div class="avatar-cross">
+                <small class="post-users-name">
+                    <img src="${ post.user.avatar }" class="post-avatar">
+                    ${ post.user.name }
+                </small>
+            
                 
-                        ${ post.content }
-                        <br>
-                        <small>
-                        ${ post.user.name }  
-                        </small>
-                        <br>
-                        <small>
-                            <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${post._id}&type=Post">
-                                0 Likes
-                            </a>
-                        <small>
-                    </p>
-                    <div class="post-comments">
-                            
-                            <form id=" post-${ post._id}-comments-form " action="/comments/create" method="POST">
-                                <input type="text" name="content" placeholder="Type here to add comment..." required>
-                                <input type="hidden" name="post" value="${ post._id }">
-                                <input type="submit" value="Add Comment"> 
-                            </form>
+                    <small>
+                        <a class="delete-post-button" href="/posts/destroy/${ post._id }" style="text-decoration: none;">
+                            <img src="/images/garbage.png" style="width:25px;height:25px;cursor:pointer;position: relative;top: 3px;">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </a>
+                    </small>
+               
+    
+            </div>
+            <br>
+            <hr class="horizontal-line">
+            ${ post.content }
+            <br>
+        
+            
+            <br>
+            <small>
                 
-                        <div class="post-comments-list">
-                            <ul id="post-comments-${ post._id }">
+                    <a class="toggle-like-button" data-likes="${ post.likes.length }" href="/likes/toggle/?id=${ post._id }&type=Post" style="color:white;text-decoration: none;">
+                        <span><i class="fa-regular fa-thumbs-up" ></i> </span>${ post.likes.length } Likes
+                    </a>
                 
-                            </ul>
-                
-                        </div>
-                    </div>
-                </li>
-    `)}
+            </small>
+    
+        </p>
+        <div class="post-comments">
+            
+                    
+                <form id="post-${ post._id }-comments-form" action="/comments/create" method="POST" onsubmit="hello()" >
+                    <input type="text" name="content" placeholder="Type here to add comment..." required class="add-text" id="postComment">
+                    <input type="hidden" name="post" value="${ post._id }">
+                    <input type="submit" value="Add Comment" class="add-button"> 
+    
+                </form>
+    
+            
+    
+            <h4>Comments</h4>
+    
+            
+            <div class="post-comments-list">
+                <ul id="post-comments-${ post._id }">
+                    
+                        
+    
+                </ul>
+    
+            </div>
+        </div>
+    </li>`)}
 
 
     //method to delete a post from DOM

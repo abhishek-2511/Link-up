@@ -44,11 +44,10 @@ body {
         li{
             border: 2px solid transparent;
             border-radius: 5px;
-            margin-top: 2px;
-            padding: 10px;
-           
-            padding-top: 14px;
+            margin-top: -3px;
+            padding: 12px 9px 11px 10px;
             transition: background 0.2s;
+            width: max-content;
             
             a {
                 color: white;
@@ -81,6 +80,7 @@ body {
                 }
             }
             &:hover {
+                
                 background: lightgray;
                 
                 a {
@@ -111,10 +111,8 @@ body {
     .user-image{
         height: 30px;
         width: 30px;
-        position: absolute;
-        right: 320px;
-        top: 9px;
         border-radius: 50%;
+        margin-top: -2px;
     }
 
     .logged-out-user-image{

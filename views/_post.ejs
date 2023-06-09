@@ -4,10 +4,10 @@
 
     <p>
         <div class="avatar-cross">
-            <small class="post-users-name">
-                <img src="<%= post.user.avatar %>" class="post-avatar">
-                <%= post.user.name %>
-            </small>
+            <div class="post-users-name d-flex align-items-center">
+                <img src="<%= post.user.avatar %>" class="post-avatar" style="height:35px; width: 35px;">
+                <p class="mb-0 fs-5 fw-bold mx-2 mt-2" style="position:relative;top:3px;"><%= post.user.name %></p>
+            </div>
         
             <!-- Delete button Post -->
             <% if(locals.user && locals.user.id == post.user.id){ %>
@@ -31,9 +31,15 @@
         <br>
         <small>
             <% if(locals.user){%>
-                <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id %>&type=Post" style="color:white;text-decoration: none;">
+                <% if(post.likes.length===1){ %>
+                <a class="toggle-like-button" data-likes="<%= post.likes.length %>"  href="/likes/toggle/?id=<%=post._id %>&type=Post" style="color:white;text-decoration: none;">
+                    <span><i class="fa-regular fa-thumbs-up" ></i> </span><%= post.likes.length %> Like
+                </a>
+                <%}else{ %>
+                <a class="toggle-like-button" data-likes="<%= post.likes.length %>"  href="/likes/toggle/?id=<%=post._id %>&type=Post" style="color:white;text-decoration: none;">
                     <span><i class="fa-regular fa-thumbs-up" ></i> </span><%= post.likes.length %> Likes
                 </a>
+                <%} %>
             <% } else { %>
                 <span><i class="fa-regular fa-thumbs-up" ></i></span>
                 <%= post.likes.length %> Likes
@@ -47,10 +53,10 @@
                 we'll also need to make the same changes in 
                 home_posts.js where we're adding a post to the page -->
                 
-            <form id="post-<%= post._id %>-comments-form" action="/comments/create" method="POST">
-                <input type="text" name="content" placeholder="Type here to add comment..." required class="add-text">
+            <form id="post-<%= post._id %>-comments-form" action="/comments/create" method="POST" onsubmit="hello()" >
+                <input type="text" name="content" placeholder="Type here to add comment..." required class="add-text p-2 px-3" id="postComment">
                 <input type="hidden" name="post" value="<%= post._id %>">
-                <input type="submit" value="Add Comment" class="add-button"> 
+                <input type="submit" value="Post" class="add-button px-3 btn ms-2 text-white"> 
 
             </form>
 
@@ -72,3 +78,11 @@
         </div>
     </div>
 </li>
+
+<script>
+    function hello(){
+        setTimeout(function(){
+            document.querySelector('#postComment').value=''
+        },0)
+    }
+</script>

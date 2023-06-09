@@ -11,8 +11,8 @@
         <h3>FEED</h3>
         
         <% if (locals.user) { %> 
-            <form action="/posts/create" id="new-post-form" method="POST" >
-                <textarea name="content" cols="30" rows="3" placeholder="What's on you Mind..." required class="add-post-text"></textarea>
+            <form action="/posts/create" id="new-post-form" method="POST" onsubmit="clearPost()" >
+                <textarea name="content" cols="30" rows="3" placeholder="What's on your Mind..." required class="add-post-text" id="createPost"></textarea>
                 <br>
                 <input type="submit" value="Post" class="add-post-button"> 
             </form>
@@ -34,7 +34,7 @@
     <section id="user-friends">
 
         <div id="friends-container">
-            <h4>FRIENDS</h4>
+            <h4 class="py-2">FRIENDS</h4>
 
             <div class="list-group">
 
@@ -47,11 +47,11 @@
                 <% } %>
 
                 <% for(fr of locals.friends) { %>
-                    <p>
+                    <p class="d-flex mb-0 py-2">
                         <a href="/users/profile/<%= fr.friend_id %>" style="color:lightseagreen;text-decoration: none;text-align: left;">
                             <img src="<%= fr.friend_avatar%>" style="height:40px; width:40px; border-radius:50%;">
                             &nbsp;
-                            <span class="user-name"> <%= fr.friend_name %></span>
+                            <span class="user-name mt-5"> <%= fr.friend_name %></span>
                         </a>
                     </p> 
 
@@ -62,13 +62,13 @@
 
         <!-- All Users -->
         
-        <h3>ALL USERS</h3>
+        <h3 class="py-2">ALL USERS</h3>
 
         <div class="list-group">
 
             <% for(u of all_users) {%>
 
-                <p>
+                <p class="mb-0 py-2">
                     <a href="/users/profile/<%= u.id %>" style="color:white;text-decoration: none;"> 
                         <img src="<%= u.avatar %>"  style="height:40px; width:40px; border-radius:50%;">
                         &nbsp   
@@ -97,6 +97,8 @@
         let self = this;
         let toggleLike = new ToggleLike(self);
     });
+    
+
 </script>
 
 <!-- Adding chat script files -->
@@ -109,3 +111,11 @@
     </script> 
 <% } %>
 <script src="/js/pop-up-chat.js"></script>
+
+<script>
+    function clearPost(){
+        setTimeout(function(){
+            document.querySelector('#createPost').value=''
+        },0)
+    }
+</script>
