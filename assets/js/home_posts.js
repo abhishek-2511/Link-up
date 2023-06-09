@@ -51,20 +51,13 @@
 
         <p>
             <div class="avatar-cross">
-                <small class="post-users-name">
-                    <img src="${ post.user.avatar }" class="post-avatar">
-                    ${ post.user.name }
-                </small>
-            
-                
-                    <small>
-                        <a class="delete-post-button" href="/posts/destroy/${ post._id }" style="text-decoration: none;">
-                            <img src="/images/garbage.png" style="width:25px;height:25px;cursor:pointer;position: relative;top: 3px;">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </a>
-                    </small>
+                <div class="post-users-name d-flex align-items-center">
+                    <img src="${ post.user.avatar }" class="post-avatar" style="height:35px; width: 35px;">
+                    <p class="mb-0 fs-5 fw-bold mx-2 mt-2" style="position:relative;top:3px;">${ post.user.name }</p>
+                </div>
+                    <a href="/posts/destroy/${ post._id }" style="text-decoration: none;" class="mt-3">
+                        <i class="bi bi-trash3-fill fs-4 text-danger"></i>
+                    </a>
                
     
             </div>
@@ -77,32 +70,31 @@
             <br>
             <small>
                 
-                    <a class="toggle-like-button" data-likes="${ post.likes.length }" href="/likes/toggle/?id=${ post._id }&type=Post" style="color:white;text-decoration: none;">
-                        <span><i class="fa-regular fa-thumbs-up" ></i> </span>${ post.likes.length } Likes
+                    <a class="toggle-like-button" data-likes="${ post.likes.length }"  href="/likes/toggle/?id=${post._id }&type=Post" style="color:white;text-decoration: none;">
+                        <span><i class="fa-regular fa-thumbs-up" ></i> </span>${ post.likes.length } Like
                     </a>
-                
+                   
+               
             </small>
     
         </p>
         <div class="post-comments">
-            
+               
                     
                 <form id="post-${ post._id }-comments-form" action="/comments/create" method="POST" onsubmit="hello()" >
-                    <input type="text" name="content" placeholder="Type here to add comment..." required class="add-text" id="postComment">
+                    <input type="text" name="content" placeholder="Type here to add comment..." required class="add-text p-2 px-3" id="postComment">
                     <input type="hidden" name="post" value="${ post._id }">
-                    <input type="submit" value="Add Comment" class="add-button"> 
+                    <input type="submit" value="Post" class="add-button px-3 btn ms-2 text-white"> 
     
                 </form>
     
-            
     
             <h4>Comments</h4>
     
-            
+           
             <div class="post-comments-list">
                 <ul id="post-comments-${ post._id }">
-                    
-                        
+                   
     
                 </ul>
     
