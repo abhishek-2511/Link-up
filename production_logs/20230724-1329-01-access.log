@@ -1,0 +1,10 @@
+[0mGET /users/profile/64593a53744103d170736dfb [36m304[0m 28.170 ms - -[0m
+[0mGET /css/bootstrap.min.css [33m404[0m 18.262 ms - 160[0m
+[0mGET /users/profile/js/toggle_likes.js [33m404[0m 10.017 ms - 171[0m
+[0mGET / [36m304[0m 37.068 ms - -[0m
+[0mGET /css/bootstrap.min.css [33m404[0m 12.468 ms - 160[0m
+[0mGET /users/profile/6485b44969f1228f7e737ddc [36m304[0m 7.479 ms - -[0m
+[0mGET /css/bootstrap.min.css [33m404[0m 11.825 ms - 160[0m
+[0mGET /users/profile/js/toggle_likes.js [33m404[0m 5.824 ms - 171[0m
+[0mGET / [36m304[0m 30.487 ms - -[0m
+[0mGET /css/bootstrap.min.css [33m404[0m 8.608 ms - 160[0m

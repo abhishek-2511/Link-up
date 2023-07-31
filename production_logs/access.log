@@ -1,0 +1,11 @@
+[0mGET / [32m200[0m 87.333 ms - 8354[0m
+[0mGET /css/chatbox.css [33m404[0m 29.445 ms - 154[0m
+[0mGET /css/chatbox.css [33m404[0m 6.966 ms - 154[0m
+[0mGET /users/sign-in [36m304[0m 10.829 ms - -[0m
+[0mGET /users/css/bootstrap.min.css [33m404[0m 5.399 ms - 166[0m
+[0mGET /users/css/layout.css [33m404[0m 10.134 ms - 159[0m
+[0mGET /users/css/header.css [33m404[0m 9.439 ms - 159[0m
+[0mGET /users/css/footer.css [33m404[0m 9.411 ms - 159[0m
+[0mGET /users/css/login.css [33m404[0m 9.816 ms - 158[0m
+[0mGET /users/js/login.js [33m404[0m 3.721 ms - 156[0m
+[0mGET /users/images/userImage.com.png [33m404[0m 3.889 ms - 169[0m
